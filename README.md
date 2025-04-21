@@ -38,3 +38,7 @@
 - Форматирование телефонных номеров и артикулов
 - Управление статусами заказов
 - Адаптивный интерфейс
+
+
+## Условие для выполнения задания
+ - https://docs.google.com/document/d/1TO6jDLaim5FN8Ru0gbwLu2D6vQS9ix9vRQAOewZGJoc/edit#heading=h.wm2kowj2n7r1
