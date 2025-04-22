@@ -7,13 +7,14 @@ interface FieldProps {
   children: ReactNode;
   invalid?: boolean;
   errorText?: string;
+  id?: string;
 }
 
-export const Field = ({ label, children, invalid, errorText }: FieldProps) => {
+export const Field = ({ label, children, invalid, errorText, id }: FieldProps) => {
   return (
     <FormControl isInvalid={invalid} mb={4}>
       {label && (
-        <FormLabel fontSize="14px" color={colors.primary.main} mb={2}>
+        <FormLabel htmlFor={id} fontSize="14px" color={colors.primary.main} mb={2}>
           {label}
         </FormLabel>
       )}

@@ -23,8 +23,6 @@ export const OrderList = () => {
     dispatch(fetchClients());
   }, [dispatch]);
 
-  // Даже если заказов нет, мы все равно показываем таблицу с заголовками
-
   return (
     <Box width="100%" bg="white">
       <Table variant="simple" size="sm" width="100%" style={{ tableLayout: 'fixed', borderCollapse: 'collapse' }} colorScheme="gray">

@@ -64,17 +64,16 @@ export const ProductTable = ({
   const totalCost = calculateTotalCost();
   const totalCostWithShipping = totalCost + (shippingPrice || 0);
 
-  // Временные значения для нового товара
   const [newProduct, setNewProduct] = useState({
     name: '',
     article: '',
-    count: 1,
+    count: 0,
     cost: 0,
     comment: ''
   });
 
   const handleAddProduct = () => {
-    if (!newProduct.name || !newProduct.article || newProduct.cost === 0) {
+    if (!newProduct.name || !newProduct.article || newProduct.cost === 0 || newProduct.count === 0) {
       return;
     }
 
@@ -85,11 +84,11 @@ export const ProductTable = ({
       article: formattedArticle
     });
 
-    // Сбрасываем форму и скрываем её
+
     setNewProduct({
       name: '',
       article: '',
-      count: 1,
+      count: 0,
       cost: 0,
       comment: ''
     });
@@ -101,7 +100,7 @@ export const ProductTable = ({
       return;
     }
 
-    // Убедимся, что имя клиента не undefined
+
     const clientName = formValues.client.name || '';
 
     dispatch(
@@ -137,21 +136,23 @@ export const ProductTable = ({
             </Thead>
             <Tbody>
               {fields.map((field, index) => (
-                <Tr key={field.id} _hover={{ bg: '#F9FAFB' }}>
+                <Tr key={field.id} _hover={{ bg: colors.primary.tableHeader }}>
                   <Td textAlign="center" py={3}>{index + 1}</Td>
                   <Td py={3}>{field.name}</Td>
                   <Td py={3}>{formatArticle(field.article)}</Td>
-                  <Td textAlign="center" py={3}>{isNaN(field.count) ? 1 : field.count}</Td>
+                  <Td textAlign="center" py={3}>{isNaN(field.count) || field.count === 0 ? '' : field.count}</Td>
                   <Td py={3}>{isNaN(field.cost) || field.cost === 0 ? 1 : field.cost}</Td>
                   <Td py={3}>{field.comment}</Td>
                 </Tr>
               ))}
 
               {isAdding && (
-                <Tr bg="#F9FAFB">
+                <Tr bg={colors.primary.tableHeader}>
                   <Td textAlign="center" py={3}>{fields.length + 1}</Td>
                   <Td py={3}>
                     <Input
+                      id="product-name"
+                      name="product-name"
                       size="sm"
                       placeholder="Название"
                       value={newProduct.name}
@@ -163,6 +164,8 @@ export const ProductTable = ({
                   </Td>
                   <Td py={3}>
                     <Input
+                      id="product-article"
+                      name="product-article"
                       size="sm"
                       placeholder="Артикул"
                       value={newProduct.article}
@@ -176,13 +179,19 @@ export const ProductTable = ({
                     <NumberInput
                       size="sm"
                       min={1}
-                      value={newProduct.count}
+                      value={newProduct.count === 0 ? '' : newProduct.count}
                       onChange={(valueString) => {
-                        const value = valueString === '' ? 1 : parseInt(valueString);
-                        setNewProduct({ ...newProduct, count: isNaN(value) ? 1 : value });
+                        if (valueString === '') {
+                          setNewProduct({ ...newProduct, count: 0 });
+                          return;
+                        }
+                        const value = parseInt(valueString);
+                        setNewProduct({ ...newProduct, count: isNaN(value) ? 0 : value });
                       }}
                     >
                       <NumberInputField
+                        id="product-count"
+                        name="product-count"
                         textAlign="center"
                         borderColor={colors.primary.inputBorder}
                         _hover={{ borderColor: colors.primary.main }}
@@ -205,6 +214,8 @@ export const ProductTable = ({
                       }}
                     >
                       <NumberInputField
+                        id="product-cost"
+                        name="product-cost"
                         borderColor={colors.primary.inputBorder}
                         _hover={{ borderColor: colors.primary.main }}
                         _focus={{ borderColor: colors.primary.main, boxShadow: 'none' }}
@@ -213,6 +224,8 @@ export const ProductTable = ({
                   </Td>
                   <Td py={3}>
                     <Textarea
+                      id="product-comment"
+                      name="product-comment"
                       size="sm"
                       placeholder="Комментарий"
                       rows={1}
@@ -229,7 +242,7 @@ export const ProductTable = ({
               {!isAdding && (
                 <Tr cursor="pointer" onClick={() => setIsAdding(true)}>
                   <Td colSpan={6} py={3} textAlign="center">
-                    <Text color="#9598B1" fontSize="14px">Заполните данные по товару</Text>
+                    <Text color={colors.primary.placeholder} fontSize="14px">Заполните данные по товару</Text>
                   </Td>
                 </Tr>
               )}
@@ -247,7 +260,7 @@ export const ProductTable = ({
                   onClick={handleAddProduct}
                   height="36px"
                   borderRadius="4px"
-                  isDisabled={!newProduct.name || !newProduct.article || newProduct.cost === 0}
+                  isDisabled={!newProduct.name || !newProduct.article || newProduct.cost === 0 || newProduct.count === 0}
                 >
                   Добавить
                 </Button>
@@ -255,9 +268,9 @@ export const ProductTable = ({
                   size="sm"
                   variant="outline"
                   onClick={() => setIsAdding(false)}
-                  borderColor="#505CC8"
-                  color="#505CC8"
-                  _hover={{ bg: 'gray.50' }}
+                  borderColor={colors.status.createdColor}
+                  color={colors.status.createdColor}
+                  _hover={{ bg: colors.primary.tableHeader }}
                   height="36px"
                   borderRadius="4px"
                 >
@@ -271,11 +284,11 @@ export const ProductTable = ({
         <Box>
           <Flex direction="column" gap="10px" mb={6} alignItems="flex-start">
             <Flex width="300px" justifyContent="space-between">
-              <Text color="#484A6A" fontSize="14px" fontWeight="500">СУММА</Text>
+              <Text color={colors.primary.secondary} fontSize="14px" fontWeight="500">СУММА</Text>
               <Text fontWeight="500" fontSize="14px">{totalCost} RUB</Text>
             </Flex>
             <Flex width="300px" justifyContent="space-between">
-              <Text color="#484A6A" fontSize="14px" fontWeight="500">СУММА С ДОСТАВКОЙ</Text>
+              <Text color={colors.primary.secondary} fontSize="14px" fontWeight="500">СУММА С ДОСТАВКОЙ</Text>
               <Text fontWeight="500" fontSize="14px">{totalCostWithShipping} RUB</Text>
             </Flex>
           </Flex>
@@ -284,14 +297,14 @@ export const ProductTable = ({
             <Button
               variant="ghost"
               onClick={onHideCreation}
-              color="#505CC8"
+              color={colors.status.createdColor}
               border="none"
               height="40px"
               width="120px"
               borderRadius="4px"
               fontSize="16px"
               fontWeight="500"
-              _hover={{ bg: 'gray.50' }}
+              _hover={{ bg: colors.primary.tableHeader }}
             >
               Отменить
             </Button>

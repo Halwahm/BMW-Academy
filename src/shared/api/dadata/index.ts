@@ -31,7 +31,7 @@ export const fetchAddressSuggestions = async (query: string): Promise<DadataAddr
 
     return response.data.suggestions;
   } catch (error) {
-    console.error('Ошибка при получении подсказок адреса:', error);
+    console.error(error);
     return [];
   }
 };

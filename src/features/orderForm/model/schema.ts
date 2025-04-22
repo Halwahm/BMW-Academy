@@ -3,7 +3,7 @@ import { z } from 'zod';
 export const productSchema = z.object({
   name: z.string().trim().min(1, 'Выберите название товара'),
   article: z.string().trim().min(1, 'Выберите артикул'),
-  count: z.number().min(1, 'Количество должно быть больше нуля'),
+  count: z.number().min(0).transform(val => val === 0 ? 1 : val),
   cost: z.number().min(1, 'Цена должна быть больше нуля'),
   comment: z.string().trim().optional(),
 });

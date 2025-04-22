@@ -35,15 +35,12 @@ export const OrderItem = ({ order, index }: OrderItemProps) => {
     dispatch(updateOrderStatus({ id, status: newStatus }));
   };
 
-  // Рассчитываем общую стоимость товаров
   const productsCost = products.reduce((total, product) => {
     return total + (product.cost * product.count);
   }, 0);
 
-  // Общая стоимость заказа
   const totalCost = productsCost + shippingCost;
 
-  // Определяем цвета для статуса
   const getStatusColors = () => {
     switch (status) {
       case OrderStatus.Created:
@@ -75,13 +72,12 @@ export const OrderItem = ({ order, index }: OrderItemProps) => {
 
   const statusColors = getStatusColors();
 
-  // Подсчитываем общее количество товаров
   const totalQuantity = products.reduce((total, product) => {
     return total + product.count;
   }, 0);
 
   return (
-    <Tr _hover={{ bg: '#F9FAFB' }}>
+    <Tr _hover={{ bg: colors.primary.tableHeader }}>
       <Td textAlign="center" py={3}>{index + 1}</Td>
       <Td py={3} textOverflow="ellipsis" overflow="hidden">{name || 'Не указано'}</Td>
       <Td py={3} textOverflow="ellipsis" overflow="hidden">{phone}</Td>
@@ -117,8 +113,8 @@ export const OrderItem = ({ order, index }: OrderItemProps) => {
                 border="none"
                 size="sm"
                 onClick={() => handleStatusChange(OrderStatus.Rejected)}
-                color="#D92550"
-                _hover={{ bg: '#F7D4DE', boxShadow: 'none', border: 'none' }}
+                color={colors.status.rejectedColor}
+                _hover={{ bg: colors.status.rejectedBgColor, boxShadow: 'none', border: 'none' }}
                 _focus={{ boxShadow: 'none', border: 'none' }}
                 _active={{ boxShadow: 'none' }}
                 borderRadius="4px"
@@ -132,8 +128,8 @@ export const OrderItem = ({ order, index }: OrderItemProps) => {
                 border="none"
                 size="sm"
                 onClick={() => handleStatusChange(OrderStatus.Completed)}
-                color="#38A169"
-                _hover={{ bg: '#C6F6D5', boxShadow: 'none', border: 'none' }}
+                color={colors.status.completedColor}
+                _hover={{ bg: colors.status.completedBgColor, boxShadow: 'none', border: 'none' }}
                 _focus={{ boxShadow: 'none', border: 'none' }}
                 _active={{ boxShadow: 'none' }}
                 borderRadius="4px"

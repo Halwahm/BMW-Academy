@@ -38,7 +38,7 @@ export const OrderDelivery = ({ errors, control, setShippingPrice }: OrderDelive
         setAddressSuggestions(suggestions.map(s => s.value));
         setShowSuggestions(suggestions.length > 0);
       } catch (error) {
-        console.error('Ошибка при получении подсказок адреса:', error);
+        console.error(error);
       }
     } else {
       setAddressSuggestions([]);
@@ -54,7 +54,7 @@ export const OrderDelivery = ({ errors, control, setShippingPrice }: OrderDelive
   const handleCopyAddress = (address: string) => {
     navigator.clipboard.writeText(address)
       .catch(err => {
-        console.error('Ошибка при копировании адреса:', err);
+        console.error(err);
       });
   };
 
@@ -64,6 +64,7 @@ export const OrderDelivery = ({ errors, control, setShippingPrice }: OrderDelive
         label="Адрес"
         invalid={!!clientError?.address}
         errorText={clientError?.address?.message}
+        id="client-address"
       >
         <Controller
           control={control}
@@ -74,6 +75,8 @@ export const OrderDelivery = ({ errors, control, setShippingPrice }: OrderDelive
                 <Box position="relative" flex="1">
                   <Input
                     ref={addressInputRef}
+                    id="client-address"
+                    name="client-address"
                     value={value || ''}
                     onChange={(e) => handleAddressChange(e.target.value, onChange)}
                     placeholder="Введите адрес"
@@ -98,7 +101,7 @@ export const OrderDelivery = ({ errors, control, setShippingPrice }: OrderDelive
                       viewBox="0 0 10 6"
                       fill="none"
                     >
-                      <path d="M1 1L5 5L9 1" stroke="#595B83" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M1 1L5 5L9 1" stroke={colors.primary.main} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                     </Box>
                   </Box>
                 </Box>
@@ -115,10 +118,10 @@ export const OrderDelivery = ({ errors, control, setShippingPrice }: OrderDelive
                       onClick={() => handleCopyAddress(value || '')}
                       variant="ghost"
                       border="1px solid"
-                      borderColor="#E2E8F0"
+                      borderColor={colors.primary.inputBorder}
                       size="sm"
-                      color="#313B9B"
-                      _hover={{ bg: '#3743AF', color: 'white', border: 'none' }}
+                      color={colors.secondary.buttonColor}
+                      _hover={{ bg: colors.secondary.button, color: 'white', border: 'none' }}
                       _focus={{ boxShadow: 'none' }}
                       _active={{ boxShadow: 'none' }}
                       borderRadius="4px"
@@ -141,7 +144,8 @@ export const OrderDelivery = ({ errors, control, setShippingPrice }: OrderDelive
                   bg="white"
                   boxShadow="0 4px 6px rgba(0, 0, 0, 0.1)"
                   borderRadius="md"
-                  border="1px solid #E2E8F0"
+                  border="1px solid"
+                  borderColor={colors.primary.inputBorder}
                 >
                   <List
                     width="100%"
@@ -178,6 +182,7 @@ export const OrderDelivery = ({ errors, control, setShippingPrice }: OrderDelive
         label="Стоимость доставки"
         invalid={!!errors.shippingCost}
         errorText={errors.shippingCost?.message}
+        id="shipping-cost"
       >
         <Controller
           control={control}
@@ -186,6 +191,8 @@ export const OrderDelivery = ({ errors, control, setShippingPrice }: OrderDelive
             <Box position="relative" width="100%">
               <Flex width="100%">
                 <Input
+                  id="shipping-cost"
+                  name="shipping-cost"
                   value={value === 0 ? '' : value}
                   onChange={(e) => {
                     const inputValue = e.target.value;
@@ -195,8 +202,6 @@ export const OrderDelivery = ({ errors, control, setShippingPrice }: OrderDelive
                       setShippingPrice(0);
                       return;
                     }
-
-
                     if (!isNaN(parseFloat(inputValue))) {
                       const numValue = parseFloat(inputValue);
                       onChange(numValue);
@@ -205,7 +210,7 @@ export const OrderDelivery = ({ errors, control, setShippingPrice }: OrderDelive
                   }}
 
                   placeholder="Введите сумму"
-                  borderColor="#E2E8F0"
+                  borderColor={colors.primary.inputBorder}
                   _hover={{ borderColor: colors.primary.main }}
                   _focus={{ borderColor: colors.primary.main, boxShadow: 'none' }}
                   flex="1"
@@ -228,7 +233,7 @@ export const OrderDelivery = ({ errors, control, setShippingPrice }: OrderDelive
                   justifyContent="center"
                   color={colors.primary.main}
                   border="1px solid"
-                  borderColor="#E2E8F0"
+                  borderColor={colors.primary.inputBorder}
                   borderTopLeftRadius={0}
                   borderBottomLeftRadius={0}
                 >
@@ -245,12 +250,13 @@ export const OrderDelivery = ({ errors, control, setShippingPrice }: OrderDelive
         label="Дата"
         invalid={!!errors.deliveryDate}
         errorText={errors.deliveryDate?.message}
+        id="delivery-date"
       >
         <Controller
           control={control}
           name="deliveryDate"
           render={({ field: { value, onChange } }) => (
-            <DateSelector value={value} onChange={onChange} />
+            <DateSelector value={value} onChange={onChange} id="delivery-date" />
           )}
         />
       </Field>

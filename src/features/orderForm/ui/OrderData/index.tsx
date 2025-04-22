@@ -36,12 +36,14 @@ export const OrderData = ({ errors, control, clients, setValue }: OrderDataProps
         label="Постоянный клиент"
         invalid={!!clientError?.name}
         errorText={clientError?.name?.message}
+        id="client-name"
       >
         <Controller
           control={control}
           name="client.name"
           render={({ field: { value, onChange } }) => (
             <Select
+              id="client-name"
               options={clientOptions}
               value={value || ''}
               onChange={(name) => {
@@ -67,6 +69,7 @@ export const OrderData = ({ errors, control, clients, setValue }: OrderDataProps
         label="Номер телефона"
         invalid={!!clientError?.phone}
         errorText={clientError?.phone?.message}
+        id="client-phone"
       >
         <Controller
           control={control}
@@ -74,6 +77,8 @@ export const OrderData = ({ errors, control, clients, setValue }: OrderDataProps
           render={({ field: { value, onChange } }) => (
             <Box
               as={IMaskInput}
+              id="client-phone"
+              name="client-phone"
               mask="+7 (000) 000-00-00"
               unmask={false}
               value={value || ''}
@@ -83,7 +88,7 @@ export const OrderData = ({ errors, control, clients, setValue }: OrderDataProps
               p="2"
               borderWidth="1px"
               borderRadius="md"
-              borderColor="#E2E8F0"
+              borderColor={colors.primary.inputBorder}
               _hover={{ borderColor: colors.primary.main }}
               _focus={{ borderColor: colors.primary.main, boxShadow: 'none' }}
             />
@@ -95,6 +100,7 @@ export const OrderData = ({ errors, control, clients, setValue }: OrderDataProps
         label="Комментарий"
         invalid={!!errors.comments}
         errorText={errors.comments?.message}
+        id="comments"
       >
         <Controller
           control={control}
@@ -102,8 +108,10 @@ export const OrderData = ({ errors, control, clients, setValue }: OrderDataProps
           render={({ field }) => (
             <Textarea
               {...field}
+              id="comments"
+              name="comments"
               placeholder="Введите комментарий..."
-              borderColor="#E2E8F0"
+              borderColor={colors.primary.inputBorder}
               _hover={{ borderColor: colors.primary.main }}
               _focus={{ borderColor: colors.primary.main, boxShadow: 'none' }}
               minHeight="100px"

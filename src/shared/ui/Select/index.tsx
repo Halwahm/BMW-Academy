@@ -7,9 +7,10 @@ interface SelectProps {
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
+  id?: string;
 }
 
-export const Select = ({ options, value, onChange, placeholder = 'Выберите...' }: SelectProps) => {
+export const Select = ({ options, value, onChange, placeholder = 'Выберите...', id }: SelectProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -41,11 +42,13 @@ export const Select = ({ options, value, onChange, placeholder = 'Выберит
     <Box position="relative" ref={wrapperRef}>
       <Box position="relative">
         <Input
+          id={id}
+          name={id}
           value={value || searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           onClick={() => setIsOpen(true)}
           placeholder={placeholder}
-          borderColor="#E2E8F0"
+          borderColor={colors.primary.inputBorder}
           _hover={{ borderColor: colors.primary.main }}
           _focus={{ borderColor: colors.primary.main, boxShadow: 'none' }}
           pr="30px"
@@ -66,7 +69,7 @@ export const Select = ({ options, value, onChange, placeholder = 'Выберит
             viewBox="0 0 10 6"
             fill="none"
           >
-            <path d="M1 1L5 5L9 1" stroke="#595B83" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M1 1L5 5L9 1" stroke={colors.primary.main} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
           </Box>
         </Box>
       </Box>
@@ -79,7 +82,7 @@ export const Select = ({ options, value, onChange, placeholder = 'Выберит
           overflowY="auto"
           bg="white"
           borderWidth="1px"
-          borderColor="#E2E8F0"
+          borderColor={colors.primary.inputBorder}
           borderRadius="md"
           mt="2px"
           zIndex={10}

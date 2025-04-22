@@ -10,9 +10,10 @@ import { colors } from '../../config/theme';
 interface DateSelectorProps {
   value: Date;
   onChange: (value: Date) => void;
+  id?: string;
 }
 
-export const DateSelector = ({ value, onChange }: DateSelectorProps) => {
+export const DateSelector = ({ value, onChange, id }: DateSelectorProps) => {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
   const today = new Date();
@@ -35,9 +36,11 @@ export const DateSelector = ({ value, onChange }: DateSelectorProps) => {
       <Flex gap="10px" direction="column">
         <Flex gap="10px">
           <Box position="relative" flex="1">
-            <Flex alignItems="center" borderWidth="1px" borderColor="#E2E8F0" borderRadius="md" pl={3}>
-              <Icon as={FiCalendar} color="#505CC8" mr={2} boxSize="20px" />
+            <Flex alignItems="center" borderWidth="1px" borderColor={colors.primary.inputBorder} borderRadius="md" pl={3}>
+              <Icon as={FiCalendar} color={colors.secondary.buttonColor} mr={2} boxSize="20px" />
               <Input
+                id={id}
+                name={id}
                 value={formattedSelectedDay}
                 readOnly
                 onClick={() => setIsCalendarOpen(!isCalendarOpen)}
@@ -62,7 +65,7 @@ export const DateSelector = ({ value, onChange }: DateSelectorProps) => {
                   viewBox="0 0 10 6"
                   fill="none"
                 >
-                  <path d="M1 1L5 5L9 1" stroke="#595B83" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M1 1L5 5L9 1" stroke={colors.primary.main} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </Box>
               </Box>
             </Flex>
@@ -79,9 +82,9 @@ export const DateSelector = ({ value, onChange }: DateSelectorProps) => {
 
             borderRadius="6px"
             bg={isToday(value) ? colors.secondary.button : 'white'}
-            color={isToday(value) ? 'white' : "#505CC8"}
-            borderColor="#505CC8"
-            _hover={{ bg: isToday(value) ? colors.secondary.buttonColor : 'gray.50' }}
+            color={isToday(value) ? 'white' : colors.secondary.buttonColor}
+            borderColor={colors.secondary.buttonColor}
+            _hover={{ bg: isToday(value) ? colors.secondary.buttonColor : colors.primary.tableHeader }}
             fontSize="13px"
             fontWeight="500"
             px="10px"
@@ -98,9 +101,9 @@ export const DateSelector = ({ value, onChange }: DateSelectorProps) => {
 
             borderRadius="6px"
             bg={isTomorrow(value) ? colors.secondary.button : 'white'}
-            color={isTomorrow(value) ? 'white' : "#505CC8"}
-            borderColor="#505CC8"
-            _hover={{ bg: isTomorrow(value) ? colors.secondary.buttonColor : 'gray.50' }}
+            color={isTomorrow(value) ? 'white' : colors.secondary.buttonColor}
+            borderColor={colors.secondary.buttonColor}
+            _hover={{ bg: isTomorrow(value) ? colors.secondary.buttonColor : colors.primary.tableHeader }}
             fontSize="13px"
             fontWeight="500"
             px="10px"
@@ -117,9 +120,9 @@ export const DateSelector = ({ value, onChange }: DateSelectorProps) => {
 
             borderRadius="6px"
             bg={isDayAfterTomorrow(value) ? colors.secondary.button : 'white'}
-            color={isDayAfterTomorrow(value) ? 'white' : "#505CC8"}
-            borderColor="#505CC8"
-            _hover={{ bg: isDayAfterTomorrow(value) ? colors.secondary.buttonColor : 'gray.50' }}
+            color={isDayAfterTomorrow(value) ? 'white' : colors.secondary.buttonColor}
+            borderColor={colors.secondary.buttonColor}
+            _hover={{ bg: isDayAfterTomorrow(value) ? colors.secondary.buttonColor : colors.primary.tableHeader }}
             fontSize="13px"
             fontWeight="500"
             px="10px"
@@ -158,11 +161,11 @@ export const DateSelector = ({ value, onChange }: DateSelectorProps) => {
               padding: '8px'
             },
             '.react-datepicker__day--selected': {
-              backgroundColor: '#505CC8 !important',
+              backgroundColor: `${colors.secondary.button} !important`,
               color: 'white !important'
             },
             '.react-datepicker__day:hover': {
-              backgroundColor: '#e6e8ff !important'
+              backgroundColor: `${colors.primary.tableHeader} !important`
             }
           }}>
             <DatePicker
